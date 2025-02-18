@@ -1,0 +1,54 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}formation{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="text-center card p-3 mb-4">Liste des formations</h1>
+
+        <div class="row">
+            {% for formation in formations %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ formation.titre }}</h5>
+                            <p class="card-text">{{ formation.description }}</p>
+
+                            <span class="badge {% if formation.difficulte == 'Facile' %}bg-success{% elseif formation.difficulte == 'Moyen' %}bg-warning{% else %}bg-danger{% endif %}">
+                             Difficulté   {{ formation.difficulte }}
+                            </span>
+
+                          <br><br>
+
+                            <div class="d-flex justify-content-between">
+                                <a style="background-color: #370588;" href="{{ path('app_formation_show_admin', {'id': formation.id}) }}" class="btn   btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" width="18" height="18" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0"/>
+                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7"/>
+                                      </svg>
+</svg>
+                                </a>
+                                <a href="{{ path('app_formation_edit_admin', {'id': formation.id}) }}" class="btn btn-warning btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" style="color: white;" width="18" height="16" fill="currentColor" class="bi bi-pencil-fill" viewBox="0 0 16 16">
+                                        <path d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.5.5 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11z"/>
+                                      </svg>                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">Aucun jeu trouvé.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center m-4">
+            <a href="{{ path('app_formation_new_admin') }}" class="btn btn-success">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-file-earmark-plus-fill" viewBox="0 0 16 16">
+                    <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0M9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1M8.5 7v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 1 0"/>
+                  </svg> Ajout
+            </a>
+        </div>
+    </div>
+{% endblock %}

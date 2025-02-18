@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	{{ formation.titre }}
+	- Quiz
+{% endblock %}
+
+{% block body %}
+
+	<div class="container mt-5">
+		<h1 class="text-center text  display-4">{{ formation.titre }}</h1>
+		<br>
+		<!-- Détails du jeu -->
+		<div class="card shadow-lg mb-5 border-light rounded">
+			<div class="card-body">
+				<h5 class="card-title text-dark">{{ formation.titre }}</h5>
+				<p class="card-text text-muted">{{ formation.description }}</p>
+
+				<p>
+					<strong>Difficulté :</strong>
+					<span class="badge {% if formation.difficulte == 'Facile' %}bg-success{% elseif formation.difficulte == 'Moyen' %}bg-warning{% else %}bg-danger{% endif %} fs-5">
+						{{ formation.difficulte }}
+					</span>
+				</p>
+
+				 {% if formation.video %}
+            <p><strong>Vidéo :</strong></p>
+            <video width="100%" controls>
+                <source src="{{ asset('images/' ~ formation.video) }}" type="video/mp4">
+                Votre navigateur ne supporte pas la lecture des vidéos.
+            </video>
+        {% else %}
+            <p class="text-muted">Aucune vidéo disponible.</p>
+        {% endif %}
+			</div>
+		</div>
+
+		<!-- Flashcards associées -->
+		<h2 class="text-center mb-4 text-info">Répondez aux Quiz
+		</h2>
+
+		<form method="post" action="{{ path('formation_submit', { id: formation.id }) }}" id="quizForm">
+			<input type="hidden" name="_token" value="{{ csrf_token('formation_submit') }}">
+
+			{% for flashcard in formation.quiz %}
+				{% set answers = [flashcard.correct, flashcard.incorrect1, flashcard.incorrect2] %}
+				{% set shuffledAnswers = answers|shuffle %}
+
+				<div class="card shadow-sm border-light rounded mb-5" style="cursor: pointer; text-align: center">
+					<div class="card-header">
+						<div class="form-check">
+							<img src="{{ asset('images/' ~ flashcard.image) }}" class="" height="300px" width="350px" alt="Flashcard Image">
+						</div>
+					</div>
+
+					{% for answer in shuffledAnswers %}
+						<div class="form-check">
+							<input class="form-check-input" type="radio" name="answers[{{ flashcard.id }}]" value="{{ answer }}" required>
+							<label class="form-check-label" for="answer_{{ flashcard.id }}_{{ loop.index }}">
+								{{ answer }}
+							</label>
+						</div>
+					{% endfor %}
+				</div>
+			{% endfor %}
+
+			<div class="text-center">
+				<button type="submit" class="btn btn-primary">Submit</button>
+			</div>
+		</form>
+		<!-- Affichage des résultats -->
+		{% if correct_answers is defined %}
+			<div class="mt-5">
+				<h3 class="text-center text-success">Résultats :</h3>
+				<div class="row">
+					{% for flashcard, is_correct in correct_answers %}
+						<div class="col-md-4 mb-3">
+							<div class="card {% if is_correct %}bg-success text-white{% else %}bg-danger text-white{% endif %} border-0 rounded shadow-sm">
+								<div class="card-body text-center">
+									<h5 class="card-title">{{ flashcard.correct }}</h5>
+									<p class="card-text">
+										{% if is_correct %}
+											<i class="fas fa-check-circle"></i>
+											Correct
+										{% else %}
+											<i class="fas fa-times-circle"></i>
+											Incorrect
+										{% endif %}
+									</p>
+								</div>
+							</div>
+						</div>
+					{% endfor %}
+				</div>
+			</div>
+		{% endif %}
+	</div>
+{% endblock %}
+
+{% block stylesheets %}
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+	<style>
+		body {
+			font-family: 'Poppins', sans-serif;
+			background-color: #f9f9f9;
+			color: #333;
+		}
+
+		.btn-primary {
+			background: linear-gradient(45deg, #007bff, #00d2ff);
+			color: white;
+			border: none;
+			transition: background 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.btn-primary:hover {
+			background: linear-gradient(45deg, #00d2ff, #007bff);
+			box-shadow: 0 4px 15px rgba(0, 123, 255, 0.4);
+		}
+
+		.card {
+			border-radius: 10px;
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+		}
+
+		.card:hover {
+			transform: translateY(-10px);
+			box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.form-check-input:checked {
+			background-color: #007bff;
+			border-color: #007bff;
+		}
+
+		.form-check-label {
+			font-weight: 500;
+		}
+
+		.spinner-border {
+			width: 3rem;
+			height: 3rem;
+			border-width: 0.3em;
+		}
+
+		.rounded-pill {
+			border-radius: 50px;
+		}
+
+		.shadow-lg {
+			box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+		}
+
+		.card-title {
+			font-weight: 500;
+		}
+	</style>
+{% endblock %}
+
+{% block javascripts %}
+	<script>
+		// Animation de chargement lors de la soumission du formulaire
+document.getElementById('quizForm').addEventListener('submit', function (event) {
+document.getElementById('loadingSpinner').classList.remove('d-none');
+});
+	</script>
+{% endblock %}

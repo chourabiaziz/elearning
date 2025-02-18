@@ -1,0 +1,40 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Quiz index{% endblock %}
+
+{% block body %}
+    <h1>Quiz index</h1>
+
+ <div class="card">
+    <table class="table table-hover ">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Incorrect1</th>
+                <th>Incorrect2</th>
+                <th>Correct</th>
+                <th>Reponse</th>
+                <th>formation</th>
+
+             </tr>
+        </thead>
+        <tbody>
+        {% for quiz in quizzes %}
+            <tr>
+                <td>{{ quiz.image }}</td>
+                <td><img src="{{ asset('images/' ~ quiz.image) }}" height="150px" width="150px" alt=""></td>
+                <td>{{ quiz.incorrect2 }}</td>
+                <td>{{ quiz.correct }}</td>
+                <td>{{ quiz.reponse ? 'Yes' : 'No' }}</td>
+                <td><a href="{{ path('app_formation_show_admin', {'id': quiz.formation.id}) }}">{{ quiz.formation.titre }}</a></td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table></div>
+
+ {% endblock %}

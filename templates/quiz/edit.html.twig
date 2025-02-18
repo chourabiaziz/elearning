@@ -1,0 +1,12 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Edit Quiz{% endblock %}
+
+{% block body %}
+    <h1>Edit Quiz</h1>
+
+    {{ include('quiz/_form.html.twig', {'button_label': 'Update'}) }}
+
+ 
+    {{ include('quiz/_delete_form.html.twig') }}
+{% endblock %}

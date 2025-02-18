@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}formation{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="text-center mb-4">Liste des formations</h1>
+
+        <div class="row">
+            {% for formation in formations %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                    
+                            
+                            <h5 class="card-title">{{ formation.titre }}</h5>
+                            <p class="card-text">{{ formation.description }}</p>
+
+                            <span class="badge {% if formation.difficulte == 'Facile' %}bg-success{% elseif formation.difficulte == 'Moyen' %}bg-warning{% else %}bg-danger{% endif %}">
+                             Difficulté   {{ formation.difficulte }}
+                            </span>
+
+                           
+                            <div class="text-center">
+                                <a style="background-color: #ececec00;color: green;"  href="{{ path('app_formation_show', {'id': formation.id}) }}" class="btn   btn-sm">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25"  height="25" fill="currentColor" class="bi bi-play-circle-fill" viewBox="0 0 16 16">
+                                        <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0M6.79 5.093A.5.5 0 0 0 6 5.5v5a.5.5 0 0 0 .79.407l3.5-2.5a.5.5 0 0 0 0-.814z"/>
+                                      </svg>
+</svg>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-12 text-center">
+                    <p class="text-muted">Aucun jeu trouvé.</p>
+                </div>
+            {% endfor %}
+        </div>
+
+     
+    </div>
+{% endblock %}
