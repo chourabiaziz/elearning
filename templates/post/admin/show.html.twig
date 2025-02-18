@@ -1,0 +1,80 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}{{ post.titre }}{% endblock %}
+
+{% block body %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-10">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <!-- Image du post -->
+                <div class="position-relative">
+                    {% if post.image %}
+                        <img src="{{ asset('uploads/' ~ post.image) }}" alt="Image de {{ post.titre }}" 
+                             class="card-img-top rounded-top" style="height: 400px; object-fit: cover;">
+                    {% else %}
+                        <img src="{{ asset('uploads/default.jpg') }}" alt="Image par défaut" 
+                             class="card-img-top rounded-top" style="height: 400px; object-fit: cover;">
+                    {% endif %}
+                    <!-- Badge date sur l'image -->
+                    <div class="position-absolute top-0 end-0 bg-dark text-white px-3 py-1 rounded-bottom-start">
+                        {{ post.createdat ? post.createdat|date('d M Y') : 'Date inconnue' }}
+                    </div>
+                </div>
+
+                <div class="card-body">
+                    <!-- Titre -->
+                    <h2 class="card-title text-center">{{ post.titre }}</h2>
+
+                    <!-- Contenu -->
+                    <p class="card-text text-muted fs-5 mt-3">{{ post.contenu }}</p>
+
+                    <!-- Actions -->
+                    <div class="d-flex justify-content-between mt-4">
+                       
+                        <a href="{{ path('app_post_edit', {'id': post.id}) }}" class="btn btn-warning">
+                            <i class="fas fa-edit"></i> Modifier
+                        </a>
+                        <form method="post" action="{{ path('app_post_delete_admin', {'id': post.id}) }}" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce post ?');">
+                             <button class="btn btn-danger"><i class="fas fa-trash"></i> Supprimer</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+                  {% for comment in post.commentaires %}
+                    <div class="card m-3 p-3">
+
+                        <div class="row">
+                            <div class="col-2">
+                                <img src="{{asset('user.png')}}" width="50px" height="50px" alt="">
+                                {{comment.username}}
+                            </div>
+                            <div class="col-8">
+                                <div class="row">
+                                    <div class="col">
+                                        <p> {{comment.contenu}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="text-end"> {{ comment.createdAt|date('d/m/Y H:i') }}
+
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2">
+                                 <a href="/post/{{comment.id}}/comment/delete"
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce commentaire ?');"
+
+                                 class="btn btn-danger"> Supprimer</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+    </div>
+</div>
+{% endblock %}

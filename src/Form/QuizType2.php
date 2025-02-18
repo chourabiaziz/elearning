@@ -11,14 +11,14 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class QuizType extends AbstractType
+class QuizType2 extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
         ->add('image', FileType::class, [
             'label' => 'Entrer votre image', // Modifier ici
-            'mapped' => true,
+            'mapped' => false,
             'empty_data' => '',
             'required' => false,
 

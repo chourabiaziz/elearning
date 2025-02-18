@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Post{% endblock %}
+
+{% block body %}
+    <h1>Edit commentaire</h1>
+
+ <div class="container m-5">
+  <div class="card">
+   <div class="card-body">
+    {{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    {{ form_widget(form.contenu, {'attr': {'class': 'form-control', 'placeholder': 'Aa...'}}) }}
+    <span class="text-danger">{{ form_errors(form.contenu) }} </span>
+
+    <br>
+    <button class="btn btn-success" type="submit"><i class="fas fa-send"></i> </button>
+    {{ form_end(form) }}
+
+   </div>
+  </div>
+ </div>
+
+{% endblock %}

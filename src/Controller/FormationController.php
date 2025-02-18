@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Formation;
 use App\Form\FormationType;
+use App\Form\FormationType2;
 use App\Repository\FormationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +43,7 @@ final class FormationController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_formation_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('app_formation_index_admin', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/new/admin', name: 'app_formation_new_admin')]
@@ -78,7 +79,7 @@ final class FormationController extends AbstractController
             $entityManager->flush();
     
             $this->addFlash('success', 'Formation ajoutée avec succès!');
-            return $this->redirectToRoute('app_formation_index'); // Redirect to the index page
+            return $this->redirectToRoute('app_formation_index_admin'); // Redirect to avoid further execution
         }
     
         return $this->render('formation/admin/new.html.twig', [
@@ -184,7 +185,7 @@ final class FormationController extends AbstractController
     #[Route('/{id}/edit/admin', name: 'app_formation_edit_admin', methods: ['GET', 'POST'])]
     public function aaaaa(Request $request, Formation $formation, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(FormationType::class, $formation);
+        $form = $this->createForm(FormationType2::class, $formation);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

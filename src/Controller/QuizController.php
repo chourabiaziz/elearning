@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Quiz;
 use App\Form\QuizType;
+use App\Form\QuizType2;
 use App\Repository\FormationRepository;
 use App\Repository\QuizRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -36,7 +37,7 @@ final class QuizController extends AbstractController
     #[Route('/{id}/edit', name: 'app_quiz_edit_admin', methods: ['GET', 'POST'])]
     public function edit(Request $request, Quiz $quiz, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(QuizType::class, $quiz);
+        $form = $this->createForm(QuizType2::class, $quiz);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

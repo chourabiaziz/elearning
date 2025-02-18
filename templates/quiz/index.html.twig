@@ -13,19 +13,17 @@
                 <th>Incorrect1</th>
                 <th>Incorrect2</th>
                 <th>Correct</th>
-                <th>Reponse</th>
-                <th>formation</th>
+                 <th>formation</th>
 
              </tr>
         </thead>
         <tbody>
         {% for quiz in quizzes %}
             <tr>
-                <td>{{ quiz.image }}</td>
-                <td><img src="{{ asset('images/' ~ quiz.image) }}" height="150px" width="150px" alt=""></td>
-                <td>{{ quiz.incorrect2 }}</td>
-                <td>{{ quiz.correct }}</td>
-                <td>{{ quiz.reponse ? 'Yes' : 'No' }}</td>
+                 <td><img src="{{ asset('images/' ~ quiz.image) }}" height="150px" width="150px" alt=""></td>
+                 <td>{{ quiz.incorrect2 }}</td>
+                 <td>{{ quiz.incorrect1 }}</td>
+                 <td>{{ quiz.correct }}</td>
                 <td><a href="{{ path('app_formation_show_admin', {'id': quiz.formation.id}) }}">{{ quiz.formation.titre }}</a></td>
 
             </tr>

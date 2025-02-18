@@ -1,0 +1,68 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block title %}Fil d'actualités{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Fil d'actualités</h1>
+
+        <div class="row">
+          {% for post in posts %}
+     <div class="col-4">
+        <div class="container mt-5 mb-3">
+            <div class="row justify-content-center">
+                     <div class="card shadow-lg border-0 rounded-lg">
+                        <!-- Image du post -->
+                        <div class="position-relative">
+                            {% if post.image %}
+                            <a href="{{ path('app_post_show_admin', {'id': post.id}) }}">
+                                {% if post.image %}
+                                <img src="{{ asset('uploads/' ~ post.image) }}" alt="Image de {{ post.titre }}"
+                                    class="card-img-top" style="height: 250px; object-fit: cover;">
+                                {% else %}
+                                <img src="{{ asset('uploads/default.jpg') }}" alt="Image par défaut"
+                                    class="card-img-top" style="height: 250px; object-fit: cover;">
+                                {% endif %}
+                            </a>
+                            {% else %}
+                            <img src="{{ asset('uploads/default.jpg') }}" alt="Image par défaut"
+                                class="card-img-top rounded-top" style="height: 400px; object-fit: cover;">
+                            {% endif %}
+
+
+                            <div
+                                class="position-absolute top-0 end-0 bg-dark text-white px-3 py-1 rounded-bottom-start">
+                                {{ post.createdat ? post.createdat|date('d M Y') : 'Date inconnue' }}
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <!-- Titre -->
+                            <h2 class="card-title text-center">{{ post.titre }}</h2>
+
+                            <!-- Contenu -->
+                            <p class="card-text  fs-5 mt-3">{{ post.contenu }}</p>
+                            <hr>
+
+                            <!-- Actions -->
+                            <div class="textmuted">
+
+                                <p> {{ post.createdat ? post.createdat|date('d M Y') : 'Date inconnue' }}
+                                </p>
+
+                            </div>
+                        </div>
+                 </div>
+            </div>
+        </div>
+     </div>
+        {% else %}
+        <p class="text-center text-muted w-100">Aucun post trouvé</p>
+        {% endfor %}
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="{{ path('app_post_new') }}" class="btn btn-success">Créer un nouveau post</a>
+        </div>
+    </div>
+{% endblock %}

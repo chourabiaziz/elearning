@@ -34,12 +34,19 @@
             <ul class="main-menu">
 
                 <li><a href="/">Home</a></li>
+                <li><a href="/post">Actualité</a></li>
                 <li><a href="/formation">Formation</a></li>
 
         </nav>
     </header>
 
     <div style="margin-top: 105px;">
+        {% for message in app.flashes('success') %}
+    <div class="alert alert-success">
+        {{ message }}
+    </div>
+{% endfor %}
+
     {% block body %}{% endblock %}
 </div>
     <footer>

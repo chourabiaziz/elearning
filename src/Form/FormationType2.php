@@ -10,7 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class FormationType extends AbstractType
+class FormationType2 extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -38,8 +38,15 @@ class FormationType extends AbstractType
         ])
         ->add('video', FileType::class, [
             'label' => 'Image',
-            'required' => false, // Set the image field as optional
-            'mapped' => false, // Important: tells Symfony not to try to map this field to an entity property
+            'mapped' => false,
+            'empty_data' => '',
+            'required' => false,
+
+            'attr' => [
+                'class' => 'form-control', 
+                'data_class' => null,  // This prevents Symfony from expecting a File object
+
+            ]// Important: tells Symfony not to try to map this field to an entity property
         ])  
         
     
