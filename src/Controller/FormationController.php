@@ -62,7 +62,7 @@ final class FormationController extends AbstractController
     
                 try {
                     $videoFile->move(
-                        $this->getParameter('upload_directory'),
+                        $this->getParameter('upload_directory_formation'),
                         $newFilename
                     );
                     $formation->setVideo($newFilename);

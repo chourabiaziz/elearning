@@ -8,7 +8,7 @@
 
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0"/>
 
-		<title>Dashboard - Analytics | e-learning - Bootstrap 5 HTML Admin Template - Pro</title>
+		<title>Dashboard - Analytics |  - Bootstrap 5 HTML Admin Template - Pro</title>
 
 		<meta
 		name="description" content=""/>
@@ -61,7 +61,7 @@
             <a href="index.html" class="app-brand-link">
               <span class="app-brand-logo demo">
                <img src="{{asset('logo.png.png')}}" alt="">
-              <span class="app-brand-text demo menu-text fw-bolder ms-2">e-learning</span>
+              <span class="app-brand-text demo menu-text fw-bolder ms-2"></span>
             </a>
 
             <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
@@ -80,7 +80,7 @@
     </a>
 </li>
 <li class="menu-header small text-uppercase">
-              <span class="menu-header-text">Reclamations</span>
+              <span class="menu-header-text">formation </span>
             </li>
 <li class="menu-item {% if app.request.get('_route') == 'app_formation_index_admin' %}active{% endif %}">
     <a href="{{ path('app_formation_index_admin') }}" class="menu-link">
@@ -95,13 +95,50 @@
         <div data-i18n="Analytics">List des  Quiz</div>
     </a>
 </li>
+<li class="menu-header small text-uppercase">
+	<span class="menu-header-text">Actualité </span>
+  </li>
 <li class="menu-item {% if app.request.get('_route') == 'app_post_index_admin' %}active{% endif %}">
     <a href="{{ path('app_post_index_admin') }}" class="menu-link">
  		<i class='menu-icon tf-icons bx bx-category-alt'></i>
         <div data-i18n="Analytics">Gestion des posts</div>
     </a>
 </li>
+<li class="menu-header small text-uppercase">
+	<span class="menu-header-text">evenement </span>
+  </li>
+  <li class="menu-item {% if app.request.get('_route') == 'list_event' %}active {% endif %}">
+    <a href="{{ path('list_event') }}" class="menu-link">
+ 		<i class='menu-icon tf-icons bx bx-category-alt'></i>
+        <div data-i18n="Analytics">Gestion des evenement</div>
+    </a>
+</li>
+<li class="menu-header small text-uppercase">
+	<span class="menu-header-text">Cours </span>
+  </li>
+<li class="menu-item {% if app.request.get('_route') == 'list_cours' %}active {% endif %}">
+    <a href="{{ path('list_cours') }}" class="menu-link">
+ 		<i class='menu-icon tf-icons bx bx-category-alt'></i>
+        <div data-i18n="Analytics">Gestion des cours</div>
+    </a>
+</li>
 
+<li class="menu-header small text-uppercase">
+	<span class="menu-header-text">Utilisateurs </span>
+  </li>
+ 
+<li class="menu-item {% if app.request.get('_route') == 'list_prof' %}active {% endif %}">
+    <a href="{{ path('list_prof') }}" class="menu-link">
+ 		<i class='menu-icon tf-icons bx bx-category-alt'></i>
+        <div data-i18n="Analytics">Gestion des profs</div>
+    </a>
+</li>
+<li class="menu-item {% if app.request.get('_route') == 'list_user' %}active {% endif %}">
+    <a href="{{ path('list_user') }}" class="menu-link">
+ 		<i class='menu-icon tf-icons bx bx-category-alt'></i>
+        <div data-i18n="Analytics">Gestion des students</div>
+    </a>
+</li>
 
             <!-- Layouts -->
            

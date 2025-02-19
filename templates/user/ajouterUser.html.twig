@@ -1,0 +1,164 @@
+{% block body %}
+    <div class="user-form-container">
+        {{ form_start(form) }}
+
+        {# Suppression des erreurs de formulaire et des erreurs de champ #}
+
+        <div class="form-field">
+            {{ form_row(form.nom) }}
+            <div id="name-feedback" class="validation-message"></div>  {# Feedback for Name #}
+        </div>
+
+        <div class="form-field">
+            {{ form_row(form.prenom) }}
+            <div id="prenom-feedback" class="validation-message"></div>  {# Feedback for Last Name #}
+        </div>
+
+        <div class="form-field">
+            {{ form_row(form.email) }}
+            <div id="email-feedback" class="validation-message"></div>  {# Feedback for Email #}
+        </div>
+
+        <div class="form-field">
+            {{ form_row(form.phone) }}
+            <div id="phone-feedback" class="validation-message"></div>  {# Feedback for Phone #}
+        </div>
+
+        <div class="form-field">
+            {{ form_row(form.password) }}
+            <div id="password-feedback" class="validation-message"></div>  {# Feedback for Password #}
+        </div>
+
+        <!-- Image Field -->
+        <div class="mb-4">
+            {{ form_label(form.photo, 'Image', {'label_attr': {'class': 'text-lg font-medium text-white'}}) }}
+
+            <div class="relative">
+                {{ form_widget(form.photo, {'attr': {'class': 'w-full border-2 border-white bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg p-3 transition-all duration-300 ease-in-out', 'type': 'file'}}) }}
+            </div>
+
+            {# Affichage des erreurs spécifiques de l'image #}
+            <div class="error-message">
+                {{ form_errors(form.photo) }}
+            </div>
+        </div>
+
+        <div class="form-submit">
+            <button type="submit" class="btn-submit">Sign Up</button>
+        </div>
+
+        {{ form_end(form) }}
+
+        {# Affichage d'un message de succès après la soumission du formulaire (si nécessaire) #}
+        {% if app.session.flashbag.has('success') %}
+            <div class="success-message">
+                {{ app.session.flashbag.get('success')|first }}
+            </div>
+        {% endif %}
+    </div>
+
+    {# Include JavaScript for real-time validation #}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const nameField = document.getElementById('user_nom');  // Adjust to correct field name from form
+            const prenomField = document.getElementById('user_prenom');  // Adjust to correct field name
+            const emailField = document.getElementById('user_email');  // Adjust to correct field name
+            const phoneField = document.getElementById('user_phone');  // Adjust to correct field name
+            const passwordField = document.getElementById('user_password');  // Adjust to correct field name
+
+            const nameFeedback = document.getElementById('name-feedback');
+            const prenomFeedback = document.getElementById('prenom-feedback');
+            const emailFeedback = document.getElementById('email-feedback');
+            const phoneFeedback = document.getElementById('phone-feedback');
+            const passwordFeedback = document.getElementById('password-feedback');
+
+            // Name Validation
+            nameField.addEventListener('input', function() {
+                const nameValue = nameField.value;
+                const nameRegex = /^[A-Za-z]+$/;
+                if (nameValue) {
+                    if (nameRegex.test(nameValue)) {
+                        nameFeedback.textContent = 'Accepted';
+                        nameFeedback.style.color = 'green';
+                    } else {
+                        nameFeedback.textContent = 'Name should not contain numbers or special characters';
+                        nameFeedback.style.color = 'red';
+                    }
+                } else {
+                    nameFeedback.textContent = '';  
+                }
+            });
+
+            // Prenom Validation
+            prenomField.addEventListener('input', function() {
+                const prenomValue = prenomField.value;
+                const prenomRegex = /^[A-Za-z]+$/;
+                if (prenomValue) {
+                    if (prenomRegex.test(prenomValue)) {
+                        prenomFeedback.textContent = 'Accepted';
+                        prenomFeedback.style.color = 'green';
+                    } else {
+                        prenomFeedback.textContent = 'Last Name should not contain numbers or special characters';
+                        prenomFeedback.style.color = 'red';
+                    }
+                } else {
+                    prenomFeedback.textContent = ''; 
+                }
+            });
+
+            // Email Validation
+            emailField.addEventListener('input', function() {
+                const emailValue = emailField.value;
+                const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+                if (emailValue) {
+                    if (emailRegex.test(emailValue)) {
+                        emailFeedback.textContent = 'Accepted';
+                        emailFeedback.style.color = 'green';
+                    } else {
+                        emailFeedback.textContent = 'Please enter a valid email address';
+                        emailFeedback.style.color = 'red';
+                    }
+                } else {
+                    emailFeedback.textContent = '';  // Clear message if field is empty
+                }
+            });
+
+            // Phone Validation (assuming phone format like +123-456-7890)
+            phoneField.addEventListener('input', function() {
+                const phoneValue = phoneField.value;
+                const phoneRegex = /^[+\d]?\(?\d{1,3}\)?[\d\s\-]{5,}$/;
+                if (phoneValue) {
+                    if (phoneRegex.test(phoneValue)) {
+                        phoneFeedback.textContent = 'Accepted';
+                        phoneFeedback.style.color = 'green';
+                    } else {
+                        phoneFeedback.textContent = 'Please enter a valid phone number';
+                        phoneFeedback.style.color = 'red';
+                    }
+                } else {
+                    phoneFeedback.textContent = '';  // Clear message if field is empty
+                }
+            });
+
+            // Password Validation
+            passwordField.addEventListener('input', function() {
+                const passwordValue = passwordField.value;
+                const passwordLength = passwordValue.length >= 8;
+                const containsUppercase = /[A-Z]/.test(passwordValue);
+                const containsSpecialChar = /[\W_]/.test(passwordValue);
+
+                if (passwordValue) {
+                    if (passwordLength && containsUppercase && containsSpecialChar) {
+                        passwordFeedback.textContent = 'Accepted';
+                        passwordFeedback.style.color = 'green';
+                    } else {
+                        passwordFeedback.textContent = 'Password should be at least 8 characters long, contain at least one uppercase letter, and one special character';
+                        passwordFeedback.style.color = 'red';
+                    }
+                } else {
+                    passwordFeedback.textContent = '';  // Clear message if field is empty
+                }
+            });
+        });
+    </script>
+{% endblock %}

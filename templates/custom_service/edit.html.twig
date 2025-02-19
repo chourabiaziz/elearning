@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le service personnalisé{% endblock %}
+
+{% block body %}
+<h1>Modifier un service personnalisé</h1>
+
+{{ form_start(form) }}
+    {{ form_row(form.niveau) }}
+    {{ form_row(form.questions) }}
+    {{ form_row(form.plan) }}
+    {{ form_row(form.image) }}
+    {{ form_row(form.Categorie) }}
+    <button class="btn btn-primary" type="submit">Mettre à jour</button>
+{{ form_end(form) }}
+
+{% endblock %}

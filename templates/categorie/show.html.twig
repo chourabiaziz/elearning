@@ -1,0 +1,17 @@
+<h1>Détails de la catégorie</h1>
+
+<ul>
+    <li><strong>Nom:</strong> {{ categorie.nom }}</li>
+    <li><strong>Description:</strong> {{ categorie.description }}</li>
+    <li><strong>Date de création:</strong> {{ categorie.dateCreated|date('d/m/Y') }}</li>
+    <li>
+        <strong>Image:</strong>
+        {% if categorie.image %}
+            <img src="{{ asset('images/' ~ categorie.image) }}" alt="Image de la catégorie" width="100">
+        {% else %}
+            Aucune image
+        {% endif %}
+    </li>
+</ul>
+
+<a href="{{ path('app_categorie_index') }}">Retour à la liste des catégories</a>

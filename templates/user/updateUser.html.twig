@@ -1,0 +1,147 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            background-color: #1a237e; /* Bleu marine */
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+        }
+
+        .user-form-container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            color: #000000;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ff9800; /* Orange */
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            color: #1a237e; /* Bleu marine */
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        .form-control {
+            border: 2px solid #1a237e; /* Bleu marine */
+            border-radius: 5px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn-primary {
+            background-color: #ff9800; /* Orange */
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            flex: 1;
+            text-align: center;
+            margin-right: 10px;
+        }
+
+        .btn-primary:hover {
+            background-color: #e68900;
+        }
+
+        .btn-secondary {
+            background-color: #1a237e; /* Bleu marine */
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-secondary:hover {
+            background-color: #151b6a;
+        }
+
+        .alert-success {
+            background-color: #4caf50;
+            color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        small {
+            color: #666666;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="user-form-container">
+        <h1>Mettre à Jour un Événement</h1>
+
+        {% if app.session.flashbag.has('success') %}
+            <div class="alert alert-success">
+                {{ app.session.flashbag.get('success')|first }}
+            </div>
+        {% endif %}
+
+        {{ form_start(form) }}
+
+        <div class="form-group">
+            {{ form_label(form.nom) }}
+            {{ form_widget(form.nom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+      
+
+        <div class="form-group">
+            {{ form_label(form.prenom) }}
+            {{ form_widget(form.prenom, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.photo) }}
+            {{ form_widget(form.photo, {'attr': {'class': 'form-control'}}) }}
+            <small class="form-text text-muted">Laissez vide si vous ne souhaitez pas changer l'image actuelle.</small>
+        </div>
+
+        <div class="btn-container">
+            <button type="submit" class="btn btn-primary">Update user</button>
+            <a href="{{ path('list_user') }}" class="btn btn-secondary">Retour</a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

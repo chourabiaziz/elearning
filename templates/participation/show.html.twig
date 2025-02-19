@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des événements{% endblock %}
+
+{% block body %}
+    <h1>Liste des événements</h1>
+
+    <div class="event-list">
+        {% for event in event_liste %}
+            <div class="event-item">
+                <h2>{{ event.nom }}</h2>
+                <p><strong>Date:</strong> {{ event.dateEvent|date('Y-m-d H:i') }}</p>
+                <p><strong>Lieu:</strong> {{ event.lieu }}</p>
+                <p><strong>Places restantes:</strong> {{ event.seuil }}</p>
+
+                <!-- Affichage de l'image de l'événement -->
+                <img src="{{ asset('image/' ~ event.imageE) }}" alt="{{ event.nom }}" width="300px"/>
+
+                <!-- Bouton de participation -->
+                {% if event.seuil > 0 %}
+                    <a href="{{ path('app_participation_join', {id: event.id}) }}" class="btn btn-primary">Join</a>
+                {% else %}
+                    <p class="text-danger">Cet événement est complet.</p>
+                {% endif %}
+            </div>
+        {% else %}
+            <p>Aucun événement disponible.</p>
+        {% endfor %}
+    </div>
+
+{% endblock %}

@@ -1,0 +1,161 @@
+
+{% block title %}Détails des catégories{% endblock %}
+
+{% block stylesheets %}
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 50px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+            margin-bottom: 25px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        /* Barre de recherche */
+        .search-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .search-input {
+            width: 100%;
+            max-width: 400px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .sort-button {
+            background: none;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .category-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .category-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+        .category-item strong {
+            color: #1e3a8a;
+        }
+
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .btn {
+            padding: 10px 14px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s ease-in-out;
+            text-align: center;
+        }
+
+        .btn-back {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-back:hover {
+            background-color: #1e40af;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>📂 Détails des catégories</h1>
+
+        <!-- Barre de recherche et tri -->
+        <div class="search-container">
+            <input type="text" id="searchBar" class="search-input" placeholder="🔍 Rechercher une catégorie..." onkeyup="filterCategories()">
+            <button class="sort-button" onclick="sortCategories()">🔼/🔽</button>
+        </div>
+
+        <!-- Liste dynamique des catégories -->
+        <ul class="category-list" id="categoryList">
+            {% for categorie in categories %}
+                <li class="category-item">
+                    <strong>📖 Nom :</strong> <span class="category-name">{{ categorie.nom }}</span>
+                </li>
+            {% else %}
+                <li class="category-item">Aucune catégorie trouvée.</li>
+            {% endfor %}
+        </ul>
+
+        <div class="actions">
+            <a href="{{ path('app_categorie_index') }}" class="btn btn-back">⬅ Retour à la liste</a>
+        </div>
+    </div>
+
+    <!-- Script de recherche et tri -->
+    <script>
+        function filterCategories() {
+            let input = document.getElementById("searchBar").value.toLowerCase();
+            let items = document.querySelectorAll(".category-item");
+
+            items.forEach(item => {
+                let text = item.textContent.toLowerCase();
+                if (text.includes(input)) {
+                    item.style.display = "flex";
+                } else {
+                    item.style.display = "none";
+                }
+            });
+        }
+
+        function sortCategories() {
+            let list = document.getElementById("categoryList");
+            let items = Array.from(list.getElementsByClassName("category-item"));
+            let ascending = list.dataset.sorted !== "asc";
+
+            items.sort((a, b) => {
+                let nameA = a.querySelector(".category-name").textContent.toLowerCase();
+                let nameB = b.querySelector(".category-name").textContent.toLowerCase();
+                return ascending ? nameA.localeCompare(nameB) : nameB.localeCompare(nameA);
+            });
+
+            list.innerHTML = "";
+            items.forEach(item => list.appendChild(item));
+            list.dataset.sorted = ascending ? "asc" : "desc";
+        }
+    </script>
+{% endblock %}

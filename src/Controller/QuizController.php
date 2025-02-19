@@ -84,7 +84,7 @@ final class QuizController extends AbstractController
     
                     try {
                         $imageFile->move(
-                            $this->getParameter('upload_directory'),
+                            $this->getParameter('upload_directory_formation'),
                             $newFilename
                         );
                         $quiz->setImage($newFilename);

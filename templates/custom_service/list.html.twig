@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des services personnalisés{% endblock %}
+
+{% block body %}
+<h1>Liste des services personnalisés</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Niveau</th>
+            <th>Questions</th>
+            <th>Plan</th>
+            <th>Image</th>
+            <th>Catégorie</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for customService in customServices %}
+            <tr>
+                <td>{{ customService.niveau }}</td>
+                <td>{{ customService.questions }}</td>
+                <td>{{ customService.plan }}</td>
+                <td><img src="{{ asset('image/' ~ customService.image) }}" alt="Image" width="50"></td>
+                <td>{{ customService.Categorie.nom }}</td>
+                <td>
+                    <a href="{{ path('edit_custom_service', {'id': customService.id}) }}">Modifier</a>
+                    <a href="{{ path('delete_custom_service', {'id': customService.id}) }}">Supprimer</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

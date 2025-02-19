@@ -1,0 +1,316 @@
+
+
+
+{% block style %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+<style>
+
+ table {
+        width: 100%; /* Ensure the table takes up full width */
+        border-collapse: separate; /* Ensure spacing between cells */
+        border-spacing: 20px; /* Adds space between columns and rows */
+        margin: 20px 0; /* Adds space around the table */
+    }
+
+
+        
+        /* Style for error messages */
+        .validation-message {
+            color: red; /* Red color for error messages */
+            font-size: 12px; /* Smaller font size */
+            margin-top: 5px;
+        }
+    
+</style>
+
+
+{% endblock %}
+
+{% block body %}
+<div class="container" id="container">
+    <div class="form-container sign-up">
+        <form action="{{ path('app_registerProf') }}" method="POST" >
+            <h1>Create Account</h1>
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+
+            <span>or use your email for registration</span>
+
+            {{ form_start(formProf) }}
+
+            <table>
+                <tr>
+                    <!-- First Column: Name, Last Name, Email -->
+                    <td>
+                        
+                         <div class="form-field">
+                {{ form_widget(formProf.nom, { 'attr': {'placeholder': 'Enter your name'}, 'label': false }) }}
+                <div id="name-feedback" class="validation-message">
+                    {% if formProf.nom.vars.errors|length > 0 %}
+                        <ul>
+                            {% for error in formProf.nom.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+                        
+                         <div class="form-field">
+                {{ form_widget(formProf.prenom, { 'attr': {'placeholder': 'Enter your last name'}, 'label': false }) }}
+                <div id="prenom-feedback" class="validation-message">
+                    {% if formProf.prenom.vars.errors|length > 0 %}
+                        <ul>
+                            {% for error in formProf.prenom.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+                       <div class="form-field">
+                {{ form_widget(formProf.email, { 'attr': {'placeholder': 'Enter your email'}, 'label': false }) }}
+                <div id="email-feedback" class="validation-message">
+                    {% if formProf.email.vars.errors|length > 0 %}
+                        <ul>
+                            {% for error in formProf.email.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+                    </td>
+
+                    <!-- Second Column: Experience, Languages, Phone -->
+                    <td>
+                       <div class="form-field">
+                        {{ form_widget(formProf.experiences, { 'attr': {'placeholder': 'Enter your experiences'} }) }}
+                        {% if formProf.experiences.vars.errors|length > 0 %}
+                        <div class="validation-message">
+                        {{ formProf.experiences.vars.errors[0].message }}
+                        </div>
+                        {% endif %}
+                        </div>
+
+                        <div class="form-field">
+                        {{ form_widget(formProf.languages, { 'attr': {'placeholder': 'Enter your languages'} }) }}
+                        {% if formProf.languages.vars.errors|length > 0 %}
+                        <div class="validation-message">
+                        {{ formProf.languages.vars.errors[0].message }}
+                        </div>
+                        {% endif %}
+                        </div>
+
+                        <div class="form-field">
+                            {{ form_widget(formProf.phone, { 'attr': {'placeholder': 'Enter your phone number'}, 'label': false }) }}
+                            <div id="phone-feedback" class="validation-message"></div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+
+           
+          <div class="form-field">
+    {{ form_widget(formProf.plainPassword, { 'attr': {'placeholder': 'Enter your password'} }) }}
+
+    <!-- Custom Error Display for Password -->
+    <div id="password-feedback" class="validation-message">
+        {% if formProf.plainPassword.vars.errors|length > 0 %}
+            <ul>
+                {% for error in formProf.plainPassword.vars.errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+
+        {{ form_row(formProf.agreeTerms) }}
+
+            
+        <!-- Image Field -->
+        <div class="mb-4">
+            {{ form_label(formProf.photo, 'Image', {'label_attr': {'class': 'text-lg font-medium text-white'}}) }}
+
+            <div class="relative">
+                {{ form_widget(formProf.photo, {'attr': {'class': 'w-full border-2 border-white bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg p-3 transition-all duration-300 ease-in-out', 'type': 'file'}}) }}
+            </div>
+
+            {# Affichage des erreurs spécifiques de l'image #}
+            <div class="error-message">
+                {{ form_errors(formProf.photo) }}
+            </div>
+        </div>
+
+    
+            <div class="form-submit">
+                <button type="submit" class="btn-submit">Sign Up</button>
+            </div>
+
+            {{ form_end(formProf) }}
+
+          
+            
+            {# Affichage d'un message de succès après la soumission du formulaire (si nécessaire) #}
+            {% if app.session.flashbag.has('success') %}
+                <div class="success-message">
+                    {{ app.session.flashbag.get('success')|first }}
+                </div>
+            {% endif %}
+            
+        {# Affichage d'un message de succès après la soumission du formulaire (si nécessaire) #}
+        {% if app.session.flashbag.has('success') %}
+            <div class="success-message">
+                {{ app.session.flashbag.get('success')|first }}
+            </div>
+        {% endif %}
+
+    </div>
+    </form>
+
+    <div class="form-container sign-in">
+        <form>
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+            <span>do you already have an account?</span>
+           
+<a href="/login">Sign In Now!</a>
+        </form>
+    </div>
+
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <h1>Welcome Back!</h1>
+                <p>Enter your personal details to use all of site features</p>
+                
+                <button class="hidden" id="login"><a href="/login" style="font-size: 20px; color: white; ">&#8592;</a>
+</button>
+            </div>
+            <div class="toggle-panel toggle-right">
+                <h1>Hello, Friend!</h1>
+                <p>Register with your personal details to use all of site features</p>
+                <button class="hidden" id="register"><a style="font-size: 20px; color: white;">&#8594;</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nameField = document.getElementById('user_nom');  // Adjust to correct field name from form
+        const prenomField = document.getElementById('user_prenom');  // Adjust to correct field name
+        const emailField = document.getElementById('user_email');  // Adjust to correct field name
+        const phoneField = document.getElementById('user_phone');  // Adjust to correct field name
+        const passwordField = document.getElementById('user_password');  // Adjust to correct field name
+        
+        const nameFeedback = document.getElementById('name-feedback');
+        const prenomFeedback = document.getElementById('prenom-feedback');
+        const emailFeedback = document.getElementById('email-feedback');
+        const phoneFeedback = document.getElementById('phone-feedback');
+        const passwordFeedback = document.getElementById('password-feedback');
+
+        // Name Validation
+        nameField.addEventListener('input', function() {
+            const nameValue = nameField.value;
+            const nameRegex = /^[A-Za-z]+$/;
+            if (nameValue) {
+                if (nameRegex.test(nameValue)) {
+                    nameFeedback.textContent = 'Accepted';
+                    nameFeedback.style.color = 'green';
+                } else {
+                    nameFeedback.textContent = 'Name should not contain numbers or special characters';
+                    nameFeedback.style.color = 'red';
+                }
+            } else {
+                nameFeedback.textContent = '';  // Clear message if field is empty
+            }
+        });
+
+        // Prenom Validation
+        prenomField.addEventListener('input', function() {
+            const prenomValue = prenomField.value;
+            const prenomRegex = /^[A-Za-z]+$/;
+            if (prenomValue) {
+                if (prenomRegex.test(prenomValue)) {
+                    prenomFeedback.textContent = 'Accepted';
+                    prenomFeedback.style.color = 'green';
+                } else {
+                    prenomFeedback.textContent = 'Last Name should not contain numbers or special characters';
+                    prenomFeedback.style.color = 'red';
+                }
+            } else {
+                prenomFeedback.textContent = '';  // Clear message if field is empty
+            }
+        });
+
+        // Email Validation
+        emailField.addEventListener('input', function() {
+            const emailValue = emailField.value;
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (emailValue) {
+                if (emailRegex.test(emailValue)) {
+                    emailFeedback.textContent = 'Accepted';
+                    emailFeedback.style.color = 'green';
+                } else {
+                    emailFeedback.textContent = 'Please enter a valid email address';
+                    emailFeedback.style.color = 'red';
+                }
+            } else {
+                emailFeedback.textContent = '';  // Clear message if field is empty
+            }
+        });
+
+        // Phone Validation (assuming phone format like +123-456-7890)
+        phoneField.addEventListener('input', function() {
+            const phoneValue = phoneField.value;
+            const phoneRegex = /^[+\d]?\(?\d{1,3}\)?[\d\s\-]{5,}$/;
+            if (phoneValue) {
+                if (phoneRegex.test(phoneValue)) {
+                    phoneFeedback.textContent = 'Accepted';
+                    phoneFeedback.style.color = 'green';
+                } else {
+                    phoneFeedback.textContent = 'Please enter a valid phone number';
+                    phoneFeedback.style.color = 'red';
+                }
+            } else {
+                phoneFeedback.textContent = '';  // Clear message if field is empty
+            }
+        });
+
+        // Password Validation
+        passwordField.addEventListener('input', function() {
+            const passwordValue = passwordField.value;
+            const passwordLength = passwordValue.length >= 8;
+            const containsUppercase = /[A-Z]/.test(passwordValue);
+            const containsSpecialChar = /[\W_]/.test(passwordValue);
+
+            if (passwordValue) {
+                if (passwordLength && containsUppercase && containsSpecialChar) {
+                    passwordFeedback.textContent = 'Accepted';
+                    passwordFeedback.style.color = 'green';
+                } else {
+                    passwordFeedback.textContent = 'Password should be at least 8 characters long, contain at least one uppercase letter, and one special character';
+                    passwordFeedback.style.color = 'red';
+                }
+            } else {
+                passwordFeedback.textContent = '';  // Clear message if field is empty
+            }
+        });
+    });
+</script>
+<script src="{{ asset('script.js') }}"></script>
+{% endblock %}

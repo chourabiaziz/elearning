@@ -1,0 +1,189 @@
+
+{% block style %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ asset('style.css') }}">
+
+
+        <style>
+        /* Style for error messages */
+        .validation-message {
+            color: red; /* Red color for error messages */
+            font-size: 12px; /* Smaller font size */
+            margin-top: 5px;
+        }
+    </style>
+
+{% endblock %}
+
+{% block body %}
+<div class="container" id="container">
+    <div class="form-container sign-up">
+        <form action="{{ path('app_register') }}" method="POST">
+            <h1>Create Account</h1>
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+
+            <span>or use your email for registration</span>
+
+            {{ form_start(form) }}
+
+            <div class="form-field">
+                {{ form_widget(form.nom, { 'attr': {'placeholder': 'Enter your name'}, 'label': false }) }}
+                <div id="name-feedback" class="validation-message">
+                    {% if form.nom.vars.errors|length > 0 %}
+                        <ul>
+                            {% for error in form.nom.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-field">
+                {{ form_widget(form.prenom, { 'attr': {'placeholder': 'Enter your last name'}, 'label': false }) }}
+                <div id="prenom-feedback" class="validation-message">
+                    {% if form.prenom.vars.errors|length > 0 %}
+                        <ul>
+                            {% for error in form.prenom.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-field">
+                {{ form_widget(form.email, { 'attr': {'placeholder': 'Enter your email'}, 'label': false }) }}
+                <div id="email-feedback" class="validation-message">
+                    {% if form.email.vars.errors|length > 0 %}
+                        <ul>
+                            {% for error in form.email.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="form-field">
+                {{ form_widget(form.phone, { 'attr': {'placeholder': 'Enter your phone number'}, 'label': false }) }}
+                <div id="phone-feedback" class="validation-message">
+                    {% if form.phone.vars.errors|length > 0 %}
+                        <ul>
+                            {% for error in form.phone.vars.errors %}
+                                <li>{{ error.message }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+
+           <div class="form-field">
+    {{ form_widget(form.plainPassword, { 'attr': {'placeholder': 'Enter your password'} }) }}
+
+    <!-- Custom Error Display for Password -->
+    <div id="password-feedback" class="validation-message">
+        {% if form.plainPassword.vars.errors|length > 0 %}
+            <ul>
+                {% for error in form.plainPassword.vars.errors %}
+                    <li>{{ error.message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
+
+            
+
+            {{ form_row(form.agreeTerms) }}
+
+            <!-- Image Field -->
+            <div class="mb-4">
+                {{ form_label(form.photo, 'Image', {'label_attr': {'class': 'text-lg font-medium text-white'}}) }}
+
+                <div class="relative">
+                    {{ form_widget(form.photo, {'attr': {'class': 'w-full border-2 border-white bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg p-3 transition-all duration-300 ease-in-out', 'type': 'file'}}) }}
+                </div>
+
+                {# Affichage des erreurs spécifiques de l'image #}
+                <div class="error-message">
+                    {{ form_errors(form.photo) }}
+                </div>
+            </div>
+
+            <div class="form-submit">
+                <button type="submit" class="btn-submit">Sign Up</button>
+            </div>
+
+            {{ form_end(form) }}
+
+                {% if errors is not empty %}
+                <script type="text/javascript">
+                    // Display prompt when form submission fails and errors exist
+                    alert("Please follow the instructions and correct the errors before submitting.");
+                </script>
+            {% endif %}
+
+            {# Affichage d'un message de succès après la soumission du formulaire (si nécessaire) #}
+            {% if app.session.flashbag.has('success') %}
+                <div class="success-message">
+                    {{ app.session.flashbag.get('success')|first }}
+                </div>
+            {% endif %}
+
+        </form>
+    </div>
+
+    <div class="form-container sign-in">
+        <form>
+            <div class="social-icons">
+                <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-github"></i></a>
+                <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
+            </div>
+            <span>do you already have an account?</span>
+
+            <a href="/login">Sign In Now!</a>
+        </form>
+    </div>
+
+    <div class="toggle-container">
+        <div class="toggle">
+            <div class="toggle-panel toggle-left">
+                <h1>Welcome Back!</h1>
+                <p>Enter your personal details to use all of site features</p>
+
+                <button class="hidden" id="login"><a href="/login" style="font-size: 20px; color: white;">&#8592;</a>
+                </button>
+            </div>
+            <div class="toggle-panel toggle-right">
+                <h1>Hello, Friend!</h1>
+                <p>Register with your personal details to use all of site features</p>
+                <button class="hidden" id="register"><a style="font-size: 20px; color: white;">&#8594;</a></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
+
+{% block js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        let form = document.querySelector("form");
+        if (form) {
+            form.reset();
+        }
+    });
+</script>
+
+
+<script src="{{ asset('script.js') }}"></script>
+{% endblock %}

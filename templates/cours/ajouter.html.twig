@@ -1,0 +1,136 @@
+{% extends 'admin_base.html.twig' %}
+
+
+{% block body %}
+    <div class="container">
+        <h1>Créer un nouveau cours</h1>
+
+        {{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+        <div class="form-group">
+            {{ form_row(form.titre) }}
+            <div id="titre-feedback" class="validation-message"></div>
+        </div>
+        
+        <div class="form-group">
+            {{ form_row(form.contenu) }}
+            <div id="contenu-feedback" class="validation-message"></div>
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.dateCreated) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_row(form.categorie) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.image, 'Image du cours') }}
+            {{ form_widget(form.image, {'attr': {'class': 'form-control'}}) }}
+            <small>Laissez vide si aucune image n'est requise.</small>
+        </div>
+        <div class="form-group">
+    {{ form_label(form.video, 'Vidéo du cours') }}
+    {{ form_widget(form.video, {'attr': {'class': 'form-control'}}) }}
+    <small>Laissez vide si aucune vidéo n'est requise.</small>
+</div>
+
+
+
+        <div class="btn-container">
+            <button type="submit" class="btn-primary">Enregistrer</button>
+            <a href="{{ path('list_cours') }}" class="btn-secondary">Retour</a>
+        </div>
+
+        {{ form_end(form) }}
+    </div>
+
+    <script>
+       const titreInput = document.querySelector('[name="cours[titre]"]');
+const titreFeedback = document.getElementById("titre-feedback");
+
+const contenuInput = document.querySelector('[name="cours[contenu]"]');
+const contenuFeedback = document.getElementById("contenu-feedback");
+
+const categorieInput = document.querySelector('[name="cours[categorie]"]');
+const categorieFeedback = document.getElementById("categorie-feedback");
+
+const dateInput = document.querySelector('[name="cours[dateCreated]"]');
+const dateFeedback = document.getElementById("date-feedback");
+// Contrôle du titre
+titreInput.addEventListener("input", function() {
+    const value = titreInput.value;
+
+    // Vérification que le titre commence par une majuscule, a une longueur minimale de 3 caractères,
+    // et ne contient pas de caractères spéciaux
+    const startsWithUpperCase = /^[A-Z]/.test(value);
+    const hasMinLength = value.length >= 3;
+    const containsSpecialChar = /[^a-zA-Z0-9\s]/.test(value);  // Aucun caractère spécial autorisé (sauf les espaces)
+
+    if (startsWithUpperCase && hasMinLength && !containsSpecialChar) {
+        titreFeedback.textContent = "Titre valide!";
+        titreFeedback.classList.remove("invalid-message");
+        titreFeedback.classList.add("valid-message");
+        titreFeedback.style.display = "block";
+    } else {
+        titreFeedback.textContent = "Le titre doit commencer par une majuscule, avoir une longueur minimale de 3 caractères et ne pas inclure de caractères spéciaux.";
+        titreFeedback.classList.remove("valid-message");
+        titreFeedback.classList.add("invalid-message");
+        titreFeedback.style.display = "block";
+    }
+
+    if (value.trim() === "") {
+        titreFeedback.style.display = "none";
+    }
+});
+
+
+
+// Contrôle du contenu
+contenuInput.addEventListener("input", function() {
+    const value = contenuInput.value;
+
+    // Vérifie que le contenu commence par une majuscule et a au moins 10 caractères
+    const startsWithUpperCase = /^[A-Z]/.test(value);
+    const validContentLength = value.length >= 10;
+
+    if (startsWithUpperCase && validContentLength) {
+        contenuFeedback.textContent = "Valid content!";
+        contenuFeedback.classList.remove("invalid-message");
+        contenuFeedback.classList.add("valid-message");
+        contenuFeedback.style.display = "block";
+    } else {
+        contenuFeedback.textContent = "Le contenu doit commencer par une lettre majuscule et comporter au moins 10 caractères.";
+        contenuFeedback.classList.remove("valid-message");
+        contenuFeedback.classList.add("invalid-message");
+        contenuFeedback.style.display = "block";
+    }
+
+    if (value.trim() === "") {
+        contenuFeedback.style.display = "none";
+    }
+});
+
+// Contrôle de la catégorie (obligatoire)
+categorieInput.addEventListener("input", function() {
+    const value = categorieInput.value;
+
+    if (value.trim() !== "") {
+        categorieFeedback.style.display = "none";
+    }
+});
+
+// Contrôle de la date (obligatoire)
+dateInput.addEventListener("input", function() {
+    const value = dateInput.value;
+
+    if (value.trim() !== "") {
+        dateFeedback.style.display = "none";
+    }
+});
+
+    </script>
+{% endblock %}
+
+   

@@ -1,0 +1,59 @@
+{% extends 'admin_base.html.twig' %}
+
+{% block body %}
+    <div class="event-form-container">
+        <h1>Ajouter un Événement</h1>
+
+        {{ form_start(form) }}
+        
+        {# Suppression des erreurs de formulaire et des erreurs de champ #}
+        
+        <div class="form-field">
+            {{ form_row(form.nom) }}
+        </div>
+        
+        <div class="form-field">
+            {{ form_row(form.dateEvent) }}
+        </div>
+
+        <div class="form-field">
+            {{ form_row(form.lieu) }}
+        </div>
+
+        <div class="form-field">
+            {{ form_row(form.seuil) }}
+        </div>
+
+        <!-- Image Field -->
+        <div class="mb-4">
+            {{ form_label(form.imageE, 'Image', {'label_attr': {'class': 'text-lg font-medium text-white'}}) }}
+
+            <div class="relative">
+                {{ form_widget(form.imageE, {'attr': {'class': 'w-full border-2 border-white bg-transparent text-white focus:outline-none focus:ring-2 focus:ring-pink-500 rounded-lg p-3 transition-all duration-300 ease-in-out', 'type': 'file'}}) }}
+            </div>
+
+            {# Affichage des erreurs spécifiques de l'image #}
+            <div class="error-message">
+                {{ form_errors(form.imageE) }}
+            </div>
+        </div>
+
+        <div class="form-submit">
+            <button type="submit" class="btn-submit">Ajouter l'événement</button>
+        </div>
+
+        {{ form_end(form) }}
+
+        {# Affichage du lien pour revenir à la liste des événements #}
+        <div class="back-link">
+            <a href="{{ path('list_event') }}" class="btn-back">Retour à la liste</a>
+        </div>
+
+        {# Affichage d'un message de succès après la soumission du formulaire (si nécessaire) #}
+        {% if app.session.flashbag.has('success') %}
+            <div class="success-message">
+                {{ app.session.flashbag.get('success')|first }}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
